@@ -1,0 +1,41 @@
+"""
+ncbi_aire_search.py
+--------------------
+Searching NCBI's Entrez database for the AIRE gene using BioPython.
+
+AIRE (Autoimmune Regulator) is directly relevant to my work at the
+University of Helsinki's Department of Skin and Dermatology, where
+mutations in AIRE are studied in connection with APECED syndrome.
+This script is my first step toward pulling real AIRE sequence data
+from NCBI for downstream analysis.
+
+Author: Al_amin
+
+NOTE: Requires a valid email address for NCBI's usage policy.
+This project is in progress - next step is downloading and parsing
+the full AIRE gene record (see project README for roadmap).
+"""
+
+from Bio import Entrez, SeqIO
+
+# NCBI requires an email to identify who is making requests
+Entrez.email = "your_email@example.com"  # <-- replace with your real email
+
+
+def search_aire_gene(database: str = "nucleotide", retmax: int = 5):
+    """
+    Search NCBI for AIRE gene records in humans.
+
+    Returns a list of NCBI record IDs matching the search term.
+    """
+    query = "AIRE[Gene] AND Homo sapiens[Organism]"
+    handle = Entrez.esearch(db=database, term=query, retmax=retmax)
+    record = Entrez.read(handle)
+    handle.close()
+
+    id_list = record["IdList"]
+    print(f"Found {len(id_list)} AIRE gene record(s): {id_list}")
+    return id_list
+
+
+if __name__ == "__mai
