@@ -1,0 +1,41 @@
+"""
+dna_operations.py
+------------------
+Basic DNA/RNA/Protein operations using BioPython's Seq object.
+
+This script demonstrates the central dogma of molecular biology
+(DNA -> RNA -> Protein) using BioPython, as part of my hands-on
+learning toward applying bioinformatics to real research questions
+(e.g. the AIRE gene / APECED syndrome).
+
+Author: Al_amin
+"""
+
+from Bio.Seq import Seq
+
+def analyze_sequence(dna_sequence: str) -> None:
+    """
+    Take a raw DNA sequence string and walk through:
+    1. The original DNA sequence
+    2. Its complement and reverse complement
+    3. Transcription into mRNA
+    4. Translation into a protein sequence
+    """
+    seq = Seq(dna_sequence)
+
+    print(f"Original DNA:      {seq}")
+    print(f"Complement:        {seq.complement()}")
+    print(f"Reverse Complement:{seq.reverse_complement()}")
+
+    mrna = seq.transcribe()
+    print(f"Transcribed mRNA:  {mrna}")
+
+    protein = mrna.translate()
+    print(f"Translated Protein:{protein}")
+
+
+if __name__ == "__main__":
+    # Example: a short toy sequence (not the real AIRE gene - see
+    # ncbi_aire_search.py for pulling the actual sequence from NCBI)
+    example_dna = "ATGGCCATTGTAATGGGCCGCTGAAAGGGTGCCCGATAG"
+    analyze_sequence(example_dna)
